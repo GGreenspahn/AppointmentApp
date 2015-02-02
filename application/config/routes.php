@@ -47,6 +47,9 @@ $route['404_override'] 			= '';
 // routes for the pokes view
 $route['tasks_page'] 	= "tasks/index";
 $route['add_task'] 	= "tasks/add_task";
+$route['edit_task'] = "tasks/edit_task";
+$route['delete_task'] = "tasks/delete_task";
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

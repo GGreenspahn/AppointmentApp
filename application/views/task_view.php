@@ -7,7 +7,7 @@
     {
         outline: 1px solid black;
     }
-    th
+    th, td
     {
         outline: 1px solid black;
     }
@@ -27,19 +27,15 @@
             });
         });
     </script>
+
+    <?php date_default_timezone_set('America/Los_Angeles'); ?>
 </head>
 <body>
-	 <?php  
-
-     // date.timezone = "America/Los_Angeles";
-  //    var_dump();
-	 // die(); 
-     ?>
 	
 <h1>Hello, <?= $this->session->userdata['record']['alias'] ?>!</h1>
 <a href="/mains/logout">Logout</a>
 
-<h3>Here are your appointments for today, <?= ' '.date("F d, Y"); ?>:</h3>
+<h3>Here are your appointments for today,  <?= ' '.date("F d, Y"); ?>:</h3>
 <table id="appointments">
 <thead><th>Tasks</th>
 	<th>Time</th>
@@ -47,17 +43,18 @@
 	<th>Action</th>
 </thead>
 <tbody>
-<?php   // foreach($tasks as $task)
-   
 
-?>
+<?php foreach($todays['today'] as $today) { ?>
+    <tr>
+        <td><?= $today['appointment'] ?></td>
+        <td><?= $today['time'] ?></td>
+        <td><?= $today['status'] ?></td>
+        <td><a href="/edit_task/<?= $today['id'] ?>">Edit</a> <a href="/delete_task/<?= $today['id'] ?>">Delete</a></td>
+    </tr>
+<?php } ?>
 </tbody>
 <?php
-// var_dump($all_users);
-// die('here');
-//  for($i=0;$i<count($all_users);$i++){
-//  	if ($all_users[$i]['id'] != $this->session->userdata['record']['id']) {
-// 	echo
+
 // '<tr>
 // 	<td>' . $all_users[$i]['name'] . '</td>
 // 	<td>' . $all_users[$i]['alias'] . '</td>

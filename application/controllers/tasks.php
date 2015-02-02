@@ -3,13 +3,12 @@
 class Tasks extends CI_Controller {
 	
 	public function index()
-	{
+	{	
 		$this->load->model('Task');
 		$tasks['today'] = $this->Task->get_today($this->session->userdata['record']['id']);
 		$tasks['other'] = $this->Task->get_future($this->session->userdata['record']['id']);
-		// var_dump($this->session->userdata[);
-		// die('here');
-		$this->load->view('task_view'); //$user_poke_history );
+	
+		$this->load->view('task_view', array('todays' => $tasks));
 	}
 	public function add_task()
 	{	
