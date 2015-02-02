@@ -1,0 +1,7 @@
+.each_product
+{
+	display: inline-block;
+	vertical-align: top;
+	width: 200px;
+	border: 1px solid red;
+}
