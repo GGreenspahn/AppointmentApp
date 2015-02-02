@@ -33,7 +33,7 @@ class mains extends CI_Controller {
 			$this->Main->add_user($name,$alias,$email,$password,$dob);
 			$record = $this->Main->get_user($email);
 			$this->session->set_userdata('record', $record);
-			redirect('tasks_page'); //$this->load->view('task_view');
+			redirect('tasks_page');
 		}
 		if($this->form_validation->run() === FALSE)
 		{
@@ -44,10 +44,22 @@ class mains extends CI_Controller {
 	public function try_login()
 	{
 		$this->load->model('Main');
+		if(!$this->input->post('password')||!$this->input->post('email'))
+		{
+			$this->session->set_flashdata('login_message','Both email and password must be present to login.');
+			redirect('/');
+		}
 		$email = $this->input->post('email');
 		$password = $this->input->post('password');
 		$record = $this->Main->get_user($email);
+		if(!$record)
+		{
+			$this->session->set_flashdata('login_message','User not found.');
+			redirect('/');	
+		}
+
 		$password = crypt($password,$record['password']);
+
 		if($record)
 		{
 			if($record['password']==$password){
@@ -55,7 +67,6 @@ class mains extends CI_Controller {
 				redirect("/tasks_page");
 			}
 			$this->session->set_flashdata('message', "Sorry, user name or password wasn't right.");
-			// $this->load->view('main');
 			redirect('/');
 		}
 	}
