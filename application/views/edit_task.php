@@ -35,52 +35,36 @@
 <h1>Hello, <?= $this->session->userdata['record']['alias'] ?>!</h1>
 <a href="/mains/logout">Logout</a>
 
-<h3>Here are your appointments for today,  <?= ' '.date("F d, Y"); ?>:</h3>
-<table id="appointments">
-<thead><th>Tasks</th>
-	<th>Time</th>
-	<th>Status</th>
-	<th>Action</th>
-</thead>
-<tbody>
-
-<?php foreach($todays['today'] as $today) { ?>
-    <tr>
-        <td><?= $today['appointment'] ?></td>
-        <td><?= $today['time'] ?></td>
-        <td><?= $today['status'] ?></td>
-        <td><a href="/edit_task/<?= $today['id'] ?>">Edit</a> <a href="/delete_task/<?= $today['id'] ?>">Delete</a></td>
-    </tr>
-<?php } ?>
-</tbody>
-</table>
-<h3>Your other appointments:</h3>
+<h3>Edit this appointment:  <?= ' '.date("F d, Y"); ?>:</h3>
 <table id="appointments">
 <thead>
-	<th>Tasks</th>
-	<th>Date</th>
-	<th>Time</th>
+    <th>Task</th>
+	<th>Day</th>
+    <th>Time</th>
+	<th>Status</th>
 </thead>
 <tbody>
-
-<?php 
-
-     foreach($futures['future'] as $future) { ?>
     <tr>
-        <td><?= $future['appointment'] ?></td>
-        <td><?= $future['day'] ?></td>
-        <td><?= $future['time'] ?></td>
+        <td><?= $tasks['appointment'] ?></td>
+        <td><?= $tasks['day'] ?></td>
+        <td><?= $tasks['time'] ?></td>
+        <td><?= $tasks['status'] ?></td>
     </tr>
-<?php } ?>
-
 </tbody>
 </table>
-<form id="add_task" action="/tasks/add_task" method="post">
+<form id="update_task" action="/tasks/update_task/<?= $tasks['id'] ?>" method="post">
     <fieldset>
         <legend>Add Appointment</legend>
         <div><label for="date">Date: </label><input type="text" id="datepicker" name="datepicker" value=""></div>
         <div><label for="time">Time: </label><input type="time" id="time" name="time" value=""></div>
         <div><label for="appointment">Tasks: </label><input type="text" id="appointment" name="appointment" placeholder="enter task here..."></div>
+        <div><label for="status">Status: </label>
+            <select> id="status" name="status">
+                <option value="Pending">Pending</option>
+                <option value="Missed">Missed</option>
+                <option value="Done">Done</option>
+            </select>
+        </div>
         <div><input type="submit" value="Add"></div>
       	<input type ="hidden" name="id" value="<?= $this->session->userdata['record']['id'] ?>">
         <input type ="hidden" id="status" name="status" value="pending">

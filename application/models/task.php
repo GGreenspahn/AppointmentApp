@@ -10,13 +10,17 @@ class Task extends CI_Model {
 		return $this->db->query($query,$values);
 	}
 	
-	public function edit_task ()
+	public function update_task ($appointment, $status, $date_time, $id)
 	{
-
+		$query = "UPDATE appointments SET appointment = ?, status = ?, date_time = ? WHERE id = ?;";
+		$values = array($appointment, $status, $date_time, $id);
+		return $this->db->query($query, $values);
 	}
-	public function delete_task ()
+	public function delete_task($id)
 	{
-
+		$query = "DELETE FROM appointments WHERE id = {$id}";
+		$values = array($id);
+		return $this->db->query($query, $values);	
 	}
 	public function get_today ($id)
 	{
@@ -25,12 +29,19 @@ class Task extends CI_Model {
 		$result = $this->db->query($query,$values)->result_array();
 		return $result;
 	}
-	public function get_others ()
+	public function get_future ($id)
 	{
-
+		$query = "SELECT *, date_format(date_time, '%c/%d/%Y') AS day, date_format(date_time, '%h:%i') AS time FROM appointments WHERE date_format(date_time, '%c/%d/%Y')>date_format(NOW(), '%c/%d/%Y') AND user_id = ?";
+		$values = array($id);
+		$result = $this->db->query($query,$values)->result_array();
+		return $result;
 	}
-	public function get_future ()
+	public function get_one ($id)
 	{
-
+		$query = "SELECT *, date_format(date_time, '%c/%d/%Y') AS day, date_format(date_time, '%h:%i') AS time FROM appointments WHERE id = ?";
+		$values = array($id);
+		$result = $this->db->query($query,$values)->row_array();
+		return $result;
 	}
+	
 }
